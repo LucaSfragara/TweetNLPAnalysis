@@ -24,7 +24,7 @@ TweetNLPAnalysis/
 
 ## Notebooks
 
-### 1. main.ipynb - Baseline Analysis
+### 1. eda.ipynb - Baseline Analysis
 
 This notebook includes:
 - Comprehensive exploratory data analysis (EDA)
@@ -34,8 +34,6 @@ This notebook includes:
 - Classical ML models (Logistic Regression, Naive Bayes, Random Forest)
 - TF-IDF vectorization
 - Model comparison
-
-**Best for**: Understanding the dataset and establishing baseline performance.
 
 ### 2. advanced_models.ipynb - Deep Learning Models
 
@@ -68,8 +66,6 @@ This notebook implements advanced techniques:
 - Gradient clipping
 - Best model checkpointing
 - Comprehensive metrics tracking
-
-**Best for**: Achieving high performance with state-of-the-art models.
 
 ## Setup Instructions
 
