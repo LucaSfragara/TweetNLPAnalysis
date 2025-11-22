@@ -1,0 +1,81 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{times}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{caption}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\title{\textbf{Real-Time Disaster Detection from Social Media Text}}
+\author{Lucas Fragara}
+\date{}
+
+\begin{document}
+
+\maketitle
+\vspace{-15pt}
+
+\section*{Problem Statement}
+
+\textbf{Business Perspective:} Emergency response organizations and disaster relief agencies require real-time situational awareness during crisis events. Social media platforms, particularly Twitter, serve as immediate information sources where affected individuals share updates. However, the challenge lies in distinguishing genuine disaster reports from figurative language, news coverage, and unrelated content. Automated classification of disaster-related tweets can significantly reduce response time, enable resource allocation, and save lives by providing actionable intelligence to first responders.
+
+\textbf{Technical Perspective:} Natural language understanding of short-form social media text presents unique challenges: (1) limited context due to character constraints, (2) informal language with slang, abbreviations, and grammatical inconsistencies, (3) high ambiguity where identical words convey different meanings (e.g., ``The city is on fire!'' vs. ``This concert is fire!''), and (4) class imbalance with fewer genuine disaster tweets. The task requires developing robust binary classification models capable of semantic understanding beyond keyword matching.
+
+\section*{Dataset Description}
+
+The dataset originates from a Kaggle competition (\textit{Natural Language Processing with Disaster Tweets}) and comprises 7,613 labeled tweets for training and 3,263 unlabeled tweets for evaluation. Each instance contains:
+
+\begin{itemize}[noitemsep,topsep=0pt]
+    \item \textbf{Text:} The tweet content (max 280 characters)
+    \item \textbf{Keyword:} Optional disaster-related keyword (e.g., ``wildfire'', ``earthquake'')
+    \item \textbf{Location:} Optional user-provided location information
+    \item \textbf{Target:} Binary label (1 = real disaster, 0 = not a disaster)
+\end{itemize}
+
+Preliminary exploratory data analysis reveals:
+\begin{itemize}[noitemsep,topsep=0pt]
+    \item \textbf{Class distribution:} 57\% non-disaster (4,342), 43\% disaster (3,271) tweets -- relatively balanced
+    \item \textbf{Missing data:} Keywords absent in 0.8\% of samples, locations in 33\% of samples
+    \item \textbf{Text characteristics:} Average tweet length is 15 words; disaster tweets tend to be slightly longer and contain more uppercase text and exclamation marks
+    \item \textbf{Vocabulary overlap:} Significant lexical similarity between classes, confirming context-dependence rather than simple keyword-based separation
+\end{itemize}
+
+\section*{Proposed Approaches}
+
+We propose a multi-tiered experimental approach progressing from classical machine learning to state-of-the-art deep learning architectures:
+
+\textbf{Phase 1: Baseline Models}
+\begin{itemize}[noitemsep,topsep=0pt]
+    \item \textbf{Feature Engineering:} TF-IDF vectorization with unigrams and bigrams, incorporating hand-crafted features (text length, punctuation density, keyword presence, location availability)
+    \item \textbf{Algorithms:} Logistic Regression with L2 regularization, Naive Bayes, Random Forest classifiers
+    \item \textbf{Purpose:} Establish performance baselines and validate data quality
+\end{itemize}
+
+\textbf{Phase 2: Deep Learning with RNNs}
+\begin{itemize}[noitemsep,topsep=0pt]
+    \item \textbf{Architecture:} Bidirectional LSTM and GRU networks with word embeddings (300-dimensional)
+    \item \textbf{Enhancements:} Dropout regularization, class weighting for imbalanced learning, data augmentation (synonym replacement, random word deletion)
+    \item \textbf{Rationale:} Capture sequential dependencies and contextual information lost in bag-of-words approaches
+\end{itemize}
+
+\textbf{Phase 3: Transformer-Based Models}
+\begin{itemize}[noitemsep,topsep=0pt]
+    \item \textbf{Architectures:} DistilBERT (66M parameters) and RoBERTa (125M parameters)
+    \item \textbf{Strategy:} Fine-tune pre-trained models on disaster tweet dataset, leveraging transfer learning from large-scale language understanding
+    \item \textbf{Rationale:} Exploit contextual embeddings and attention mechanisms for nuanced semantic interpretation
+\end{itemize}
+
+\textbf{Phase 4: Ensemble Methods}
+\begin{itemize}[noitemsep,topsep=0pt]
+    \item Weighted voting ensemble combining predictions from top-performing models
+    \item Weights determined by validation F1 scores to optimize precision-recall trade-off
+\end{itemize}
+
+\textbf{Evaluation Metrics:} F1 score (primary), accuracy, precision, and recall. F1 score is prioritized to balance false positives (unnecessary alerts) and false negatives (missed disasters).
+
+\textbf{Expected Outcome:} We anticipate the ensemble approach will achieve F1 scores exceeding 0.82, with transformer models outperforming RNNs by 3-5\% and classical methods by 8-10\%.
+
+\end{document}
